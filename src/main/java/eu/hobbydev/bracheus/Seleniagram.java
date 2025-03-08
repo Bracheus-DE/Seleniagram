@@ -1,7 +1,12 @@
 package eu.hobbydev.bracheus;
 
 
+import eu.hobbydev.bracheus.actions.StoppingSeleniagramAction;
+import eu.hobbydev.bracheus.manager.ActionThreadManager;
+import eu.hobbydev.bracheus.manager.ListenerThreadManager;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Copyright (C) 2025 Bracheus
@@ -28,6 +33,9 @@ import eu.hobbydev.bracheus.manager.SeleniumManager;
  */
 public class Seleniagram {
 
+    public static ActionThreadManager actionThreadManager;
+    public static ListenerThreadManager listenerThreadManager;
+
     /**
      * The main method that serves as the entry point to the application.
      * It creates an instance of SeleniumManager and starts its operation.
@@ -35,8 +43,25 @@ public class Seleniagram {
      * @param args command-line arguments (unused in this implementation).
      */
     public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger(Seleniagram.class);
         SeleniumManager seleniumManager = new SeleniumManager();
         seleniumManager.start();
+        actionThreadManager = new ActionThreadManager(seleniumManager);
+        actionThreadManager.setName("ActionThreadManager");
+        actionThreadManager.start();
+        listenerThreadManager = new ListenerThreadManager(seleniumManager);
+        listenerThreadManager.setName("ListenerThreadManager");
+        listenerThreadManager.start();
+        while (actionThreadManager.isAlive()){
+            logger.info("Managers are still up. Main Thread is getting sleepyyy!");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            actionThreadManager.registerActions(new StoppingSeleniagramAction());
+        }
+        seleniumManager.stop();
     }
 }
 

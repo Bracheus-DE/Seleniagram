@@ -64,6 +64,7 @@ public class SeleniumManager {
      */
     public void stop() {
         if (seleniumDriver != null) {
+            seleniumDriver.close();
             seleniumDriver.quit();
         }
     }
