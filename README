@@ -1,0 +1,2 @@
+# Seleniagram
+Instagram bot created with Selenium to automate user management tasks. It handles login, follows/unfollows users, interacts with posts, and manages profile data. Runs in a headless browser for background automation. Built using Java and Selenium WebDriver for Instagram automation.
