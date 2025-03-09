@@ -2,6 +2,7 @@ package eu.hobbydev.bracheus.manager;
 
 
 import eu.hobbydev.bracheus.interfaces.Listener;
+import eu.hobbydev.bracheus.utils.HumanizerTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ import java.util.List;
  *
  * <p>The thread can be stopped gracefully by calling the stopManager method, which halts the thread's execution.</p>
  */
-public class ListenerThreadManager extends Thread {
+public class ListenerThreadManager extends Thread implements HumanizerTools {
     private Logger logger = LoggerFactory.getLogger(ListenerThreadManager.class);
     private List<Listener> listeners;
     private volatile boolean running = true;
@@ -78,21 +79,30 @@ public class ListenerThreadManager extends Thread {
     public void run() {
         while (running) {
             if (!this.listeners.isEmpty()) {
-                for (Listener listener : this.listeners) {
-                    logger.info("Running Checkup for Listener: {}", listener.getName());
-                    listener.runCheckup();
+                if(checkingActionQueue()) {
+                    for (Listener listener : this.listeners) {
+                        logger.info("Running Checkup for Listener: {}", listener.getName());
+                        listener.runCheckup();
+                        try {
+                            // Sleep for 2 second between checks
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    logger.info("After hard work, programm is getting sleepy for a few secs");
                     try {
-                        // Sleep for 1 second between checks
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                }
-                logger.info("After hard work, programm is getting sleepy for a few secs");
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                } else {
+                    logger.info("Humanizer was blocking the Queue. Mostly happens if Actions are up!");
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             } else {
                 try {
@@ -103,5 +113,14 @@ public class ListenerThreadManager extends Thread {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the SeleniumManager instance associated with this ListenerThreadManager.
+     *
+     * @return the SeleniumManager instance used for handling listener.
+     */
+    public SeleniumManager getSeleniumManager() {
+        return seleniumManager;
     }
 }

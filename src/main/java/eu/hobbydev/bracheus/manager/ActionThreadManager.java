@@ -98,4 +98,13 @@ public class ActionThreadManager extends Thread {
     public SeleniumManager getSeleniumManager() {
         return seleniumManager;
     }
+
+    /**
+     * Returns the size() of actions
+     *
+     * @return size() of actions
+     */
+    public int size(){
+        return actions.size();
+    }
 }

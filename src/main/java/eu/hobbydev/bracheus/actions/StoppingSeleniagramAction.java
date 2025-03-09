@@ -33,7 +33,7 @@ import eu.hobbydev.bracheus.interfaces.Actions;
  */
 public class StoppingSeleniagramAction implements Actions {
 
-    private final String name = "Stoppingaction";
+    private static final String name = "Stoppingaction";
 
     /**
      * Executes the stopping action by halting the listener thread and the action thread.
@@ -53,6 +53,6 @@ public class StoppingSeleniagramAction implements Actions {
      */
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 }

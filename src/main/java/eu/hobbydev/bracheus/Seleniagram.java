@@ -1,7 +1,9 @@
 package eu.hobbydev.bracheus;
 
 
+import eu.hobbydev.bracheus.actions.LoginAction;
 import eu.hobbydev.bracheus.actions.StoppingSeleniagramAction;
+import eu.hobbydev.bracheus.interfaces.ConfigurationHolder;
 import eu.hobbydev.bracheus.manager.ActionThreadManager;
 import eu.hobbydev.bracheus.manager.ListenerThreadManager;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
@@ -35,6 +37,7 @@ public class Seleniagram {
 
     public static ActionThreadManager actionThreadManager;
     public static ListenerThreadManager listenerThreadManager;
+    public static ConfigurationHolder configurationHolder;
 
     /**
      * The main method that serves as the entry point to the application.
@@ -52,6 +55,7 @@ public class Seleniagram {
         listenerThreadManager = new ListenerThreadManager(seleniumManager);
         listenerThreadManager.setName("ListenerThreadManager");
         listenerThreadManager.start();
+        actionThreadManager.registerActions(new LoginAction());
         while (actionThreadManager.isAlive()){
             logger.info("Managers are still up. Main Thread is getting sleepyyy!");
             try {

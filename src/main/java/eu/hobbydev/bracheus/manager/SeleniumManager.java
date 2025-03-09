@@ -275,6 +275,23 @@ public class SeleniumManager {
     }
 
     /**
+     * Finds a div element by its text.
+     *
+     * @param text the text of the div element to find.
+     * @return the WebElement representing the div.
+     * @throws SeleniagramNoSuchElementException if the div is not found.
+     */
+    public WebElement findDivByText(String text) {
+        WebElement webElement;
+        try {
+            webElement = getSeleniumDriver().findElement(By.xpath("//div[text()='" + text + "']"));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find Div with text: " + text);
+        }
+        return webElement;
+    }
+
+    /**
      * Finds a span element by its class name.
      *
      * @param className the class name of the span element to find.
@@ -324,5 +341,15 @@ public class SeleniumManager {
         }
         return webElement;
     }
+
+    /**
+     * Retrieves the current URL of the web page that the Selenium WebDriver is currently on.
+     *
+     * @return The current URL as a String.
+     */
+    public String getUrl() {
+        return getSeleniumDriver().getCurrentUrl();
+    }
+
 
 }
