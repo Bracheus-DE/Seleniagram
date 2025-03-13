@@ -3,12 +3,11 @@ package eu.hobbydev.bracheus.manager;
 
 import eu.hobbydev.bracheus.exceptions.SeleniagramNoSuchElementException;
 import eu.hobbydev.bracheus.settings.SeleniagramChrome;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.List;
 
 /**
  * Copyright (C) 2025 Bracheus
@@ -29,10 +28,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
  */
 
 /**
- * The SeleniumManager class provides methods to manage the interaction with a Selenium WebDriver.
- * It handles tasks such as setting up the WebDriver, starting and stopping the WebDriver instance,
- * and finding elements on a web page using various search criteria like ID, class name, text, etc.
- * The class supports automation tasks and interaction with different HTML elements on a webpage.
+ * The `SeleniumManager` class provides methods for managing interactions with a Selenium WebDriver.
+ * It is responsible for tasks such as initializing the WebDriver, starting and stopping the WebDriver session,
+ * and finding elements on a webpage using various locators such as ID, class name, name, text, XPath, and CSS selectors.
+ * This class supports automation tasks and interaction with different HTML elements on a webpage.
+ * It also provides helper methods for JavaScript execution and page navigation.
  */
 public class SeleniumManager {
 
@@ -49,7 +49,7 @@ public class SeleniumManager {
     }
 
     /**
-     * Sets up the Selenium WebDriver with the ChromeOptions for browser configuration.
+     * Sets up the Selenium WebDriver with ChromeOptions for browser configuration.
      * Configures the WebDriver with options such as headless mode, user-agent, and other settings.
      * Initializes the WebDriver instance with these options.
      */
@@ -60,7 +60,7 @@ public class SeleniumManager {
 
     /**
      * Stops the Selenium WebDriver session.
-     * If the WebDriver is not null, it terminates the session and quits the browser.
+     * If the WebDriver is initialized, it terminates the session and quits the browser.
      */
     public void stop() {
         if (seleniumDriver != null) {
@@ -241,6 +241,23 @@ public class SeleniumManager {
     }
 
     /**
+     * Finds a div element by its placeholder text.
+     *
+     * @param placeholder the placeholder text of the div element to find.
+     * @return the WebElement representing the div.
+     * @throws SeleniagramNoSuchElementException if the div is not found.
+     */
+    public WebElement findDivByPlaceholder(String placeholder) {
+        WebElement webElement;
+        try {
+            webElement = getSeleniumDriver().findElement(By.xpath("//div[@placeholder='" + placeholder + "']"));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find div with Placeholder: " + placeholder);
+        }
+        return webElement;
+    }
+
+    /**
      * Finds a div element by its ID.
      *
      * @param id the ID of the div element to find.
@@ -275,9 +292,9 @@ public class SeleniumManager {
     }
 
     /**
-     * Finds a div element by its text.
+     * Finds a div element by its text content.
      *
-     * @param text the text of the div element to find.
+     * @param text the text content of the div element to find.
      * @return the WebElement representing the div.
      * @throws SeleniagramNoSuchElementException if the div is not found.
      */
@@ -345,11 +362,88 @@ public class SeleniumManager {
     /**
      * Retrieves the current URL of the web page that the Selenium WebDriver is currently on.
      *
-     * @return The current URL as a String.
+     * @return the current URL as a string.
      */
     public String getUrl() {
         return getSeleniumDriver().getCurrentUrl();
     }
 
+    /**
+     * Finds a span element by its text content.
+     *
+     * @param text the text content of the span element to find.
+     * @return the WebElement representing the span.
+     * @throws SeleniagramNoSuchElementException if the span is not found.
+     */
+    public WebElement findSpanByText(String text) {
+        WebElement webElement;
+        try {
+            webElement = getSeleniumDriver().findElement(By.xpath("//span[text()='" + text + "']"));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find Span with Text: " + text);
+        }
+        return webElement;
+    }
 
+    /**
+     * Finds an element by its XPath.
+     *
+     * @param xPath the XPath of the element to find.
+     * @return the WebElement found by the specified XPath.
+     * @throws SeleniagramNoSuchElementException if the element is not found.
+     */
+    public WebElement findByXpath(String xPath) {
+        WebElement webElement;
+        try {
+            webElement = getSeleniumDriver().findElement(By.xpath(xPath));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find XPath: " + xPath);
+        }
+        return webElement;
+    }
+
+    /**
+     * Retrieves the JavascriptExecutor from the WebDriver instance for executing JavaScript.
+     *
+     * @return the JavascriptExecutor instance for the current WebDriver.
+     */
+    public JavascriptExecutor getJavaScJavascriptExecutor() {
+        return (JavascriptExecutor) seleniumDriver;
+    }
+
+    /**
+     * Reloads the current webpage.
+     * Refreshes the page in the current WebDriver instance.
+     */
+    public void reloadPage() {
+        getSeleniumDriver().navigate().refresh();
+    }
+
+    /**
+     * Finds multiple elements by their CSS selector.
+     *
+     * @param css the CSS selector used to locate the elements.
+     * @return a list of WebElements matching the specified CSS selector.
+     * @throws SeleniagramNoSuchElementException if no elements are found.
+     */
+    public List<WebElement> findElementsByCss(String css) {
+        List<WebElement> webElements;
+        try {
+            webElements = getSeleniumDriver().findElements(By.cssSelector(css));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find Elements with CSS: " + css);
+        }
+        return webElements;
+    }
+
+    /**
+     * Executes a JavaScript command within the context of the current page.
+     *
+     * @param script the JavaScript script to execute.
+     * @param args   optional arguments for the script.
+     * @return the result of executing the JavaScript script.
+     */
+    public Object executeJavascript(String script, Object... args) {
+        return getJavaScJavascriptExecutor().executeScript(script, args);
+    }
 }

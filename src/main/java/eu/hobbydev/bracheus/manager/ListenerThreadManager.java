@@ -79,20 +79,20 @@ public class ListenerThreadManager extends Thread implements HumanizerTools {
     public void run() {
         while (running) {
             if (!this.listeners.isEmpty()) {
-                if(checkingActionQueue()) {
+                if(!checkingActionQueue()) {
                     for (Listener listener : this.listeners) {
                         logger.info("Running Checkup for Listener: {}", listener.getName());
                         listener.runCheckup();
                         try {
                             // Sleep for 2 second between checks
-                            Thread.sleep(2000);
+                            Thread.sleep(10000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                     }
                     logger.info("After hard work, programm is getting sleepy for a few secs");
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(20000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

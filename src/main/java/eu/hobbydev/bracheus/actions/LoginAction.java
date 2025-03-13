@@ -2,11 +2,13 @@ package eu.hobbydev.bracheus.actions;
 
 
 import eu.hobbydev.bracheus.Seleniagram;
+import eu.hobbydev.bracheus.classes.LanguageHolder;
 import eu.hobbydev.bracheus.exceptions.SeleniagramNoSuchElementException;
 import eu.hobbydev.bracheus.interfaces.Actions;
 import eu.hobbydev.bracheus.interfaces.ConfigurationHolder;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
 import eu.hobbydev.bracheus.utils.HumanizerTools;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +55,44 @@ public class LoginAction implements Actions, HumanizerTools {
     @Override
     public void handleAction() {
         openingLogin();
+
+        // Check if login has already occurred (e.g., profile span found).
+        if(!checkForLogin()) {
+            Seleniagram.actionThreadManager.registerActions(new SearchAction("bracheusde"));
+            return;
+        }
+
+        // Check for cookie consent and handle if needed.
         checkForCookies();
+
+        // Attempt to fill the login form and check for successful login.
         if (!fillingInputForm()) {
             logger.error("Can't login with given information!");
+            // If login fails, register a stopping action.
             Seleniagram.actionThreadManager.registerActions(new StoppingSeleniagramAction());
+        } else {
+            logger.info("Logged in successfully!");
+            // If login is successful, register a search action.
+            Seleniagram.actionThreadManager.registerActions(new SearchAction("bracheusde"));
         }
-        logger.info("Logged in successfully!");
+    }
+
+    /**
+     * Checks if the login process has already been completed by verifying the profile span.
+     * <p>
+     * If the profile span is present, it indicates that the user is already logged in.
+     * </p>
+     *
+     * @return {@code true} if the user is not logged in (profile span not found), {@code false} otherwise.
+     */
+    private boolean checkForLogin() {
+        WebElement profile;
+        try {
+            profile = getSeleniumManager().findSpanByText(getLanguageHolder().getProfileSpan());
+        } catch (SeleniagramNoSuchElementException e){
+            return true;
+        }
+        return profile == null;
     }
 
     /**
@@ -76,47 +110,61 @@ public class LoginAction implements Actions, HumanizerTools {
         WebElement login = null;
 
         try {
-            username = getSeleniumManager().findInputByName("username");
+            username = getSeleniumManager().findInputByName(getLanguageHolder().getUsernameField());
         } catch (SeleniagramNoSuchElementException e) {
             logger.info("Can't find username input field!");
             return false;
         }
 
         try {
-            password = getSeleniumManager().findInputByName("password");
+            password = getSeleniumManager().findInputByName(getLanguageHolder().getPasswordField());
         } catch (SeleniagramNoSuchElementException e) {
             logger.info("Can't find password input field!");
             return false;
         }
 
         try {
-            login = getSeleniumManager().findButtonByText("Log in");
+            login = getSeleniumManager().findDivByText(getLanguageHolder().getLoginField());
+            login = (WebElement) getSeleniumManager().getJavaScJavascriptExecutor().executeScript(
+                    "return arguments[0].parentNode;", login);
         } catch (SeleniagramNoSuchElementException e) {
             logger.info("Can't find login button!");
             return false;
         }
 
+        // Type username and password into the respective fields.
         username.click();
-        username.sendKeys(getConfigurationHolder().getUsername());
+        for(char c : getConfigurationHolder().getUsername().toCharArray()) {
+            username.sendKeys(String.valueOf(c));
+            inputDelay();
+        }
         inputDelay();
+
         password.click();
-        password.sendKeys(getConfigurationHolder().getPassword());
+        for(char c : getConfigurationHolder().getPassword().toCharArray()) {
+            password.sendKeys(String.valueOf(c));
+            inputDelay();
+        }
         inputDelay();
+
         login.click();
         siteDelay();
 
+        // Check for any login errors (e.g., incorrect password).
         WebElement errorMessage = null;
         try {
-            errorMessage = getSeleniumManager().findDivByText("Sorry, your password was incorrect. Please double-check your password.");
+            errorMessage = getSeleniumManager().findDivByText(getLanguageHolder().getWrongPassword());
         } catch (SeleniagramNoSuchElementException e) {
             logger.info("No login error found");
         }
 
+        // If error message is found, login failed.
         if (errorMessage != null) {
             logger.info("Login credentials are wrong!");
             return false;
         }
 
+        // If URL is still the Instagram homepage, something went wrong.
         if (getSeleniumManager().getUrl().equals("https://instagram.com/")) {
             logger.info("An unknown error occurred.");
             return false;
@@ -134,7 +182,7 @@ public class LoginAction implements Actions, HumanizerTools {
     private void checkForCookies() {
         WebElement cookieButton = null;
         try {
-            cookieButton = getSeleniumManager().findButtonByText("Allow all cookies");
+            cookieButton = getSeleniumManager().findButtonByText(getLanguageHolder().getAllowAllCookiesButton());
         } catch (SeleniagramNoSuchElementException e) {
             logger.error(e.getMessage());
         }
@@ -182,5 +230,14 @@ public class LoginAction implements Actions, HumanizerTools {
      */
     private ConfigurationHolder getConfigurationHolder() {
         return Seleniagram.configurationHolder;
+    }
+
+    /**
+     * Retrieves the {@link LanguageHolder} instance that contains language-specific strings.
+     *
+     * @return The LanguageHolder instance.
+     */
+    private LanguageHolder getLanguageHolder() {
+        return Seleniagram.languageHolder;
     }
 }

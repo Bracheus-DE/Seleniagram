@@ -58,7 +58,9 @@ public class ActionThreadManager extends Thread {
     public void run() {
         while (running) {
             try {
+                isHandeling = false;
                 Actions action = this.actions.take();
+                isHandeling = true;
                 logger.info("Handeling action: {}", action.getName());
                 action.handleAction();
             } catch (InterruptedException e) {
@@ -106,5 +108,11 @@ public class ActionThreadManager extends Thread {
      */
     public int size(){
         return actions.size();
+    }
+
+    private boolean isHandeling = false;
+
+    public boolean getIsHandeling(){
+        return isHandeling;
     }
 }
