@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.apex-ascenders</groupId>
+    <groupId>eu.hobbydev.bracheus</groupId>
     <artifactId>Seleniagram</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -14,25 +14,52 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
-            <!-- Plugin für das Erstellen einer JAR-Datei -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <archive>
-                                <manifestEntries>
-                                    <Main-Class>eu.hobbydev.bracheus.Seleniagram</Main-Class>
-                                </manifestEntries>
-                            </archive>
-                            <classifier>sources</classifier>
+                            <finalName>seleniagram</finalName>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>eu.hobbydev.bracheus.Seleniagram</mainClass>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
@@ -73,6 +100,7 @@
                                 <move todir="${project.basedir}/docs">
                                     <fileset dir="${project.basedir}/target/site/apidocs"/>
                                 </move>
+                                <echo file="${project.basedir}/docs/CNAME">seleniagram.hobbydev.eu</echo>
                             </target>
                         </configuration>
                     </execution>
