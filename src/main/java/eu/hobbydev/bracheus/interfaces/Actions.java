@@ -19,5 +19,6 @@ package eu.hobbydev.bracheus.interfaces;
  */
 public interface Actions {
     void handleAction();
+
     String getName();
 }

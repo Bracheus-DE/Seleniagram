@@ -19,9 +19,9 @@ package eu.hobbydev.bracheus.exceptions;
  * bracheus@hobbydev.eu
  */
 
-public class SeleniagramNoSuchElementException extends RuntimeException{
+public class SeleniagramNoSuchElementException extends RuntimeException {
 
-    public SeleniagramNoSuchElementException(String message){
+    public SeleniagramNoSuchElementException(String message) {
         super(message);
     }
 

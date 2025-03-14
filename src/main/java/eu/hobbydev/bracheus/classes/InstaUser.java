@@ -42,7 +42,7 @@ public class InstaUser implements User {
      *
      * @param username the username of the user.
      */
-    public InstaUser(String username){
+    public InstaUser(String username) {
         this.username = username;
     }
 

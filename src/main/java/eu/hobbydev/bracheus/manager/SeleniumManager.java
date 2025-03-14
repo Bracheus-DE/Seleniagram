@@ -449,16 +449,14 @@ public class SeleniumManager {
 
     /**
      * Finds a list of web elements based on the provided XPath expression.
-     *
+     * <p>
      * This method uses the WebDriver to search for multiple elements that match the given
      * XPath query. If no elements are found, a custom exception is thrown.
      *
      * @param xpath The XPath expression used to locate the desired elements.
      *              The XPath should be a valid expression used to find elements within the DOM.
-     *
      * @return A list of {@link WebElement} objects that match the given XPath expression.
-     *         If no elements are found, a {@link SeleniagramNoSuchElementException} is thrown.
-     *
+     * If no elements are found, a {@link SeleniagramNoSuchElementException} is thrown.
      * @throws SeleniagramNoSuchElementException If no elements are found matching the given XPath.
      *                                           This exception is a custom exception indicating the
      *                                           failure to locate any matching elements.

@@ -26,14 +26,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * This class is designed to be serialized/deserialized using Jackson for XML handling.
  * The fields include the username, password, language preference, and API key, which are
  * essential for configuring a user's account and application settings.
- *
+ * <p>
  * The class implements the `ConfigurationHolder` interface, ensuring that these fields can
  * be accessed and modified through getter and setter methods.
- *
+ * <p>
  * Example use case:
  * - This class can be used to manage user-specific configuration data, such as authentication
- *   credentials, language settings, and API keys. It can be loaded from or saved to an XML
- *   configuration file for persistence across application sessions.
+ * credentials, language settings, and API keys. It can be loaded from or saved to an XML
+ * configuration file for persistence across application sessions.
  */
 public class ConfigurationHolder implements eu.hobbydev.bracheus.interfaces.ConfigurationHolder {
 

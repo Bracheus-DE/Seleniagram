@@ -19,5 +19,6 @@ package eu.hobbydev.bracheus.interfaces;
  */
 public interface Listener {
     void runCheckup();
+
     String getName();
 }

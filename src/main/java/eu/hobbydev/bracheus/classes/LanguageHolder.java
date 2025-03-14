@@ -25,19 +25,19 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
  * The `LanguageHolder` class is responsible for storing and providing language-specific keys
  * that are used in the Instagram interface. The keys are dynamic and depend on the user's selected
  * language, allowing the application to adjust to different languages for Instagram interactions.
- *
+ * <p>
  * The class uses annotations to bind the values of each key to XML properties, which are read during
  * the initialization process to configure the application. Each field corresponds to a specific
  * component of the Instagram UI (e.g., login fields, direct message labels, buttons, etc.) and is
  * localized based on the language settings.
- *
+ * <p>
  * This class is essential for enabling multi-language support in the application, making it easier
  * to interact with Instagram in various languages. It abstracts the language-specific elements,
  * so users can easily select and use their preferred language.
- *
+ * <p>
  * Example use case:
  * - The `LanguageHolder` can be used to retrieve language-specific labels like the "Send" button
- *   text, "Username" field label, "Password" field label, etc., based on the current language configuration.
+ * text, "Username" field label, "Password" field label, etc., based on the current language configuration.
  */
 public class LanguageHolder {
 

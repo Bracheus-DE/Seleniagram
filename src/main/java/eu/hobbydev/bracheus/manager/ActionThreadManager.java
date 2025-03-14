@@ -106,13 +106,13 @@ public class ActionThreadManager extends Thread {
      *
      * @return size() of actions
      */
-    public int size(){
+    public int size() {
         return actions.size();
     }
 
     private boolean isHandeling = false;
 
-    public boolean getIsHandeling(){
+    public boolean getIsHandeling() {
         return isHandeling;
     }
 }

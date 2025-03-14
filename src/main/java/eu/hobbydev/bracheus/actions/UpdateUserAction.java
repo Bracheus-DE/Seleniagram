@@ -6,7 +6,9 @@ import eu.hobbydev.bracheus.classes.InstaUser;
 import eu.hobbydev.bracheus.interfaces.Actions;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
 import eu.hobbydev.bracheus.manager.UserManager;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +64,7 @@ public class UpdateUserAction extends SearchAction implements Actions {
      * Constructs an {@code UpdateUserAction} for the specified user, with an option to specify whether the user is
      * a Seleniagram user.
      *
-     * @param user The username of the user whose data needs to be updated.
+     * @param user            The username of the user whose data needs to be updated.
      * @param seleniagramUser A flag indicating whether the user is a Seleniagram user (true) or not (false).
      */
     public UpdateUserAction(String user, boolean seleniagramUser) {
@@ -79,7 +81,7 @@ public class UpdateUserAction extends SearchAction implements Actions {
      * <li>If the user is a regular Instagram user, updates the user information in the system.</li>
      * <li>If the user is a Seleniagram user, updates the Seleniagram user information in the system.</li>
      * </ul>
-     *
+     * <p>
      * If the data is not found or is incomplete, an error is logged.
      */
     @Override
@@ -104,7 +106,7 @@ public class UpdateUserAction extends SearchAction implements Actions {
      * If the required data is not found or is incomplete, an error is logged.
      *
      * @return A list of strings containing the user's data (posts, followers, following), or {@code null} if
-     *         an error occurs or the data is incomplete.
+     * an error occurs or the data is incomplete.
      */
     private List<String> getUserData() {
         List<String> data = new ArrayList<>();
@@ -113,10 +115,10 @@ public class UpdateUserAction extends SearchAction implements Actions {
             List<WebElement> stats = getSeleniumManager().findElementsByXpath("//ul[contains(@class, 'x78zum5')]/li");
 
             if (stats.size() == 3) {
-                for (int i = 0; i<3; i++) {
-                    String xpath =  ".//div/a/span/span[contains(@class, 'x5n08af')]/span";
-                    if(i==0){
-                        xpath =  ".//div/span/span[contains(@class, 'x5n08af')]/span";
+                for (int i = 0; i < 3; i++) {
+                    String xpath = ".//div/a/span/span[contains(@class, 'x5n08af')]/span";
+                    if (i == 0) {
+                        xpath = ".//div/span/span[contains(@class, 'x5n08af')]/span";
                     }
                     WebElement span = stats.get(i).findElement(By.xpath(xpath));
                     String text = span.getText();

@@ -7,9 +7,7 @@ import eu.hobbydev.bracheus.exceptions.SeleniagramNoSuchElementException;
 import eu.hobbydev.bracheus.interfaces.Listener;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
 import eu.hobbydev.bracheus.utils.HumanizerTools;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,11 +39,11 @@ import java.util.Map;
  * It continuously checks for new messages and responds automatically using the OpenAI-powered response generation.
  * This class is designed to work with Selenium to automate the process of opening chats, reading unread messages,
  * and sending replies. It also supports a blacklist mechanism to ensure that repeated or spammy messages are avoided.
- *
+ * <p>
  * The `DMListener` implements the `Listener` interface to run checks and the `HumanizerTools` interface for handling
  * human-like message behaviors. It uses Selenium to interact with the Instagram Direct Message interface to fetch unread
  * messages, process them, and send automated responses based on the content of the conversation.
- *
+ * <p>
  * This class is also responsible for managing interactions with the blacklist, ensuring that certain users' messages
  * are not answered if previously handled.
  */

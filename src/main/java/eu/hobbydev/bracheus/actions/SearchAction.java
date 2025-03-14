@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * The action attempts to search for a user profile by navigating through the platform's UI,
  * utilizing both elements like the profile span and the search input field. If any element is not found,
  * the class attempts a direct search and handles login actions if necessary.
- *
+ * <p>
  * This class implements the `Actions` interface, which likely defines the `handleAction()` method
  * to perform the action when invoked. It also implements the `HumanizerTools` interface, which
  * may provide additional utility methods for simulating human-like interactions (e.g., adding delays).
@@ -50,7 +50,7 @@ public class SearchAction implements Actions, HumanizerTools {
      *
      * @param user the username to search for on Instagram
      */
-    public SearchAction(String user){
+    public SearchAction(String user) {
         this.user = user;
     }
 
@@ -59,7 +59,7 @@ public class SearchAction implements Actions, HumanizerTools {
      * - Checks if the profile span is present to ensure the user is logged in.
      * - If not, attempts to log in by registering a LoginAction.
      * - Starts the search process either via the search span or by performing a direct search.
-     *
+     * <p>
      * This method handles errors by retrying or invoking alternative methods if elements are not found.
      */
     @Override

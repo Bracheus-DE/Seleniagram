@@ -8,7 +8,6 @@ import eu.hobbydev.bracheus.interfaces.Actions;
 import eu.hobbydev.bracheus.interfaces.ConfigurationHolder;
 import eu.hobbydev.bracheus.manager.SeleniumManager;
 import eu.hobbydev.bracheus.utils.HumanizerTools;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class LoginAction implements Actions, HumanizerTools {
         openingLogin();
 
         // Check if login has already occurred (e.g., profile span found).
-        if(!checkForLogin()) {
+        if (!checkForLogin()) {
             Seleniagram.actionThreadManager.registerActions(new UpdateUserAction(Seleniagram.userManager.getSeleniagramUser().getUsername(), true));
             return;
         }
@@ -88,7 +87,7 @@ public class LoginAction implements Actions, HumanizerTools {
         WebElement profile;
         try {
             profile = getSeleniumManager().findSpanByText(getLanguageHolder().getProfileSpan());
-        } catch (SeleniagramNoSuchElementException e){
+        } catch (SeleniagramNoSuchElementException e) {
             return true;
         }
         return profile == null;
@@ -133,14 +132,14 @@ public class LoginAction implements Actions, HumanizerTools {
 
         // Type username and password into the respective fields.
         username.click();
-        for(char c : Seleniagram.userManager.getSeleniagramUser().getUsername().toCharArray()) {
+        for (char c : Seleniagram.userManager.getSeleniagramUser().getUsername().toCharArray()) {
             username.sendKeys(String.valueOf(c));
             inputDelay();
         }
         inputDelay();
 
         password.click();
-        for(char c : Seleniagram.userManager.getSeleniagramUser().getPassword().toCharArray()) {
+        for (char c : Seleniagram.userManager.getSeleniagramUser().getPassword().toCharArray()) {
             password.sendKeys(String.valueOf(c));
             inputDelay();
         }

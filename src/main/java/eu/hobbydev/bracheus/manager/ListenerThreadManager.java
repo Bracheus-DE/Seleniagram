@@ -79,7 +79,7 @@ public class ListenerThreadManager extends Thread implements HumanizerTools {
     public void run() {
         while (running) {
             if (!this.listeners.isEmpty()) {
-                if(!checkingActionQueue()) {
+                if (!checkingActionQueue()) {
                     for (Listener listener : this.listeners) {
                         logger.info("Running Checkup for Listener: {}", listener.getName());
                         listener.runCheckup();

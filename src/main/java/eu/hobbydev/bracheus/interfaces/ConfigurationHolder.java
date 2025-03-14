@@ -17,16 +17,17 @@ package eu.hobbydev.bracheus.interfaces;
  * For inquiries, collaborations, or licensing information, contact:
  * bracheus@hobbydev.eu
  */
+
 /**
  * The `ConfigurationHolder` interface is designed to provide a contract for holding and managing configuration
  * data related to an application. It defines methods for retrieving and setting configuration values such as the
  * username, password, language, and API key. Implementations of this interface are expected to provide access to
  * these settings, enabling their use across the application.
- *
+ * <p>
  * The interface includes getter and setter methods for each configuration item, ensuring that the values can be
  * easily accessed and updated. The `toString` method allows for a textual representation of the configuration
  * information.
- *
+ * <p>
  * Implementing classes should provide the actual functionality for retrieving and storing the configuration data,
  * either from a file, a database, or some other source.
  */

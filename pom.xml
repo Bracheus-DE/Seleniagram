@@ -96,7 +96,7 @@
                         <configuration>
                             <target>
                                 <delete dir="${project.basedir}/docs"/>
-                                <mkdir dir="${project.basedir}/docs" />
+                                <mkdir dir="${project.basedir}/docs"/>
                                 <move todir="${project.basedir}/docs">
                                     <fileset dir="${project.basedir}/target/site/apidocs"/>
                                 </move>

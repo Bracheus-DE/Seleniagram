@@ -24,6 +24,7 @@ import java.util.List;
  * For inquiries, collaborations, or licensing information, contact:
  * bracheus@hobbydev.eu
  */
+
 /**
  * The {@code UserManager} class is responsible for managing both regular Instagram users and the Seleniagram user.
  * It provides methods to register, unregister, and query information about known and followed Instagram users.
@@ -97,9 +98,9 @@ public class UserManager {
      * @param user The username of the Instagram user to check.
      * @return {@code true} if the user is known, otherwise {@code false}.
      */
-    public boolean isKnownInstaUser(String user){
-        for(InstaUser instaUser : knownInstaUsers){
-            if(instaUser.getUsername().equals(user)){
+    public boolean isKnownInstaUser(String user) {
+        for (InstaUser instaUser : knownInstaUsers) {
+            if (instaUser.getUsername().equals(user)) {
                 return true;
             }
         }
@@ -122,9 +123,9 @@ public class UserManager {
      * @param user The username of the Instagram user to check.
      * @return {@code true} if the user is followed, otherwise {@code false}.
      */
-    public boolean isFollowedInstaUser(String user){
-        for(InstaUser instaUser : followedInstaUsers){
-            if(instaUser.getUsername().equals(user)){
+    public boolean isFollowedInstaUser(String user) {
+        for (InstaUser instaUser : followedInstaUsers) {
+            if (instaUser.getUsername().equals(user)) {
                 return true;
             }
         }

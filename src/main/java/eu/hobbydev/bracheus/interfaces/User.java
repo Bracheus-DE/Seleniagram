@@ -27,58 +27,58 @@ package eu.hobbydev.bracheus.interfaces;
  */
 public interface User {
 
-   /**
-    * Gets the username of the user.
-    *
-    * @return the username as a String.
-    */
-   String getUsername();
+    /**
+     * Gets the username of the user.
+     *
+     * @return the username as a String.
+     */
+    String getUsername();
 
-   /**
-    * Gets the number of subscribers the user has.
-    *
-    * @return the number of subscribers.
-    */
-   int getSubs();
+    /**
+     * Gets the number of subscribers the user has.
+     *
+     * @return the number of subscribers.
+     */
+    int getSubs();
 
-   /**
-    * Gets the number of users the current user is subscribed to.
-    *
-    * @return the number of users the current user follows.
-    */
-   int getSubbed();
+    /**
+     * Sets the number of subscribers the user has.
+     * This method should update the subscriber count accordingly.
+     */
+    void setSubs(int subs);
 
-   /**
-    * Gets the number of posts made by the user.
-    *
-    * @return the number of posts.
-    */
-   int getPosts();
+    /**
+     * Gets the number of users the current user is subscribed to.
+     *
+     * @return the number of users the current user follows.
+     */
+    int getSubbed();
 
-   /**
-    * Gets the URL associated with the user's profile.
-    *
-    * @return the user's profile URL as a String.
-    */
-   default String getUserURL(){
-      return "https://instagram.com/" + getUsername();
-   }
+    /**
+     * Sets the number of users the current user is subscribed to.
+     * This method should update the subscription count accordingly.
+     */
+    void setSubbed(int subbed);
 
-   /**
-    * Sets the number of subscribers the user has.
-    * This method should update the subscriber count accordingly.
-    */
-   void setSubs(int subs);
+    /**
+     * Gets the number of posts made by the user.
+     *
+     * @return the number of posts.
+     */
+    int getPosts();
 
-   /**
-    * Sets the number of users the current user is subscribed to.
-    * This method should update the subscription count accordingly.
-    */
-   void setSubbed(int subbed);
+    /**
+     * Sets the number of posts made by the user.
+     * This method should update the post count accordingly.
+     */
+    void setPosts(int posts);
 
-   /**
-    * Sets the number of posts made by the user.
-    * This method should update the post count accordingly.
-    */
-   void setPosts(int posts);
+    /**
+     * Gets the URL associated with the user's profile.
+     *
+     * @return the user's profile URL as a String.
+     */
+    default String getUserURL() {
+        return "https://instagram.com/" + getUsername();
+    }
 }
