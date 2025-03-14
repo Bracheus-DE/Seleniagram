@@ -446,4 +446,31 @@ public class SeleniumManager {
     public Object executeJavascript(String script, Object... args) {
         return getJavaScJavascriptExecutor().executeScript(script, args);
     }
+
+    /**
+     * Finds a list of web elements based on the provided XPath expression.
+     *
+     * This method uses the WebDriver to search for multiple elements that match the given
+     * XPath query. If no elements are found, a custom exception is thrown.
+     *
+     * @param xpath The XPath expression used to locate the desired elements.
+     *              The XPath should be a valid expression used to find elements within the DOM.
+     *
+     * @return A list of {@link WebElement} objects that match the given XPath expression.
+     *         If no elements are found, a {@link SeleniagramNoSuchElementException} is thrown.
+     *
+     * @throws SeleniagramNoSuchElementException If no elements are found matching the given XPath.
+     *                                           This exception is a custom exception indicating the
+     *                                           failure to locate any matching elements.
+     */
+    public List<WebElement> findElementsByXpath(String xpath) {
+        List<WebElement> webElements;
+        try {
+            webElements = getSeleniumDriver().findElements(By.xpath(xpath));
+        } catch (NoSuchElementException elementException) {
+            throw new SeleniagramNoSuchElementException("Can't find Elements with XPATH: " + xpath);
+        }
+        return webElements;
+    }
+
 }

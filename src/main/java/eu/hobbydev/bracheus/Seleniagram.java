@@ -5,12 +5,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import eu.hobbydev.bracheus.actions.LoginAction;
 import eu.hobbydev.bracheus.actions.StoppingSeleniagramAction;
 import eu.hobbydev.bracheus.classes.LanguageHolder;
+import eu.hobbydev.bracheus.classes.SeleniagramUser;
 import eu.hobbydev.bracheus.interfaces.ConfigurationHolder;
 import eu.hobbydev.bracheus.listeners.DMListener;
-import eu.hobbydev.bracheus.manager.ActionThreadManager;
-import eu.hobbydev.bracheus.manager.ListenerThreadManager;
-import eu.hobbydev.bracheus.manager.OpenAIManager;
-import eu.hobbydev.bracheus.manager.SeleniumManager;
+import eu.hobbydev.bracheus.manager.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +53,7 @@ public class Seleniagram {
     public static ConfigurationHolder configurationHolder;
     public static LanguageHolder languageHolder;
     public static OpenAIManager openAIManager;
+    public static UserManager userManager;
     private static String jarPath;
     static boolean running = true;
 
@@ -113,6 +112,8 @@ public class Seleniagram {
         languageHolder = xmlMapper.readValue(new File(jarPath, configurationHolder.getLang() + ".xml"), LanguageHolder.class);
 
         openAIManager = new OpenAIManager(configurationHolder.getApiKey());
+        userManager = new UserManager();
+        userManager.setSeleniagramUser(new SeleniagramUser(configurationHolder.getUsername(), configurationHolder.getPassword()));
         SeleniumManager seleniumManager = new SeleniumManager();
         seleniumManager.start();
         configurationHolder = new eu.hobbydev.bracheus.classes.ConfigurationHolder();

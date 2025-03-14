@@ -2,6 +2,7 @@ package eu.hobbydev.bracheus.actions;
 
 
 import eu.hobbydev.bracheus.Seleniagram;
+import eu.hobbydev.bracheus.classes.InstaUser;
 import eu.hobbydev.bracheus.classes.LanguageHolder;
 import eu.hobbydev.bracheus.exceptions.SeleniagramNoSuchElementException;
 import eu.hobbydev.bracheus.interfaces.Actions;
@@ -134,8 +135,10 @@ public class SearchAction implements Actions, HumanizerTools {
      * Placeholder method for performing a direct search if elements cannot be found.
      * This method currently does not implement any specific functionality but can be extended.
      */
-    private void directSearch() {
-        // Implement direct search logic here if needed.
+    protected void directSearch() {
+        InstaUser instaUser = new InstaUser(user);
+        getSeleniumManager().open(instaUser.getUserURL());
+        siteDelay();
     }
 
     /**

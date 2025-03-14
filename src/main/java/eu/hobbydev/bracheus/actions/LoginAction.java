@@ -58,7 +58,7 @@ public class LoginAction implements Actions, HumanizerTools {
 
         // Check if login has already occurred (e.g., profile span found).
         if(!checkForLogin()) {
-            Seleniagram.actionThreadManager.registerActions(new SearchAction("bracheusde"));
+            Seleniagram.actionThreadManager.registerActions(new UpdateUserAction(Seleniagram.userManager.getSeleniagramUser().getUsername(), true));
             return;
         }
 
@@ -71,9 +71,8 @@ public class LoginAction implements Actions, HumanizerTools {
             // If login fails, register a stopping action.
             Seleniagram.actionThreadManager.registerActions(new StoppingSeleniagramAction());
         } else {
+            Seleniagram.actionThreadManager.registerActions(new UpdateUserAction(Seleniagram.userManager.getSeleniagramUser().getUsername(), true));
             logger.info("Logged in successfully!");
-            // If login is successful, register a search action.
-            Seleniagram.actionThreadManager.registerActions(new SearchAction("bracheusde"));
         }
     }
 
@@ -134,14 +133,14 @@ public class LoginAction implements Actions, HumanizerTools {
 
         // Type username and password into the respective fields.
         username.click();
-        for(char c : getConfigurationHolder().getUsername().toCharArray()) {
+        for(char c : Seleniagram.userManager.getSeleniagramUser().getUsername().toCharArray()) {
             username.sendKeys(String.valueOf(c));
             inputDelay();
         }
         inputDelay();
 
         password.click();
-        for(char c : getConfigurationHolder().getPassword().toCharArray()) {
+        for(char c : Seleniagram.userManager.getSeleniagramUser().getPassword().toCharArray()) {
             password.sendKeys(String.valueOf(c));
             inputDelay();
         }
