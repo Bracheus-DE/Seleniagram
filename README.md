@@ -1,4 +1,4 @@
-
+[![JavaDoc](https://img.shields.io/badge/JavaDoc-available-brightgreen)](https://seleniagram.hobbydev.eu/)
 # Seleniagram - Instagram Bot with Selenium
 
 **Seleniagram** is an Instagram bot built using Selenium WebDriver. This bot automates the management of an Instagram user account, such as interacting with posts, following/unfollowing users, and more.
