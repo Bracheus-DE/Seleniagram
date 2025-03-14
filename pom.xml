@@ -32,6 +32,7 @@
                                     <Main-Class>eu.hobbydev.bracheus.Seleniagram</Main-Class>
                                 </manifestEntries>
                             </archive>
+                            <classifier>sources</classifier>
                         </configuration>
                     </execution>
                 </executions>
@@ -48,6 +49,27 @@
                         </goals>
                         <configuration>
                             <source>21</source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.basedir}/docs" />
+                                <move file="${project.basedir}/target/site/apidocs"
+                                      todir="${project.basedir}/docs" />
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
